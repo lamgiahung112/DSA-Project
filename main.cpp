@@ -8,49 +8,58 @@ struct Node {
 };
 
 map<string, map<string, int>> weightage; // weightage["A"]["B"]
-vector<Node*> nodes;
+map<string, Node*> nodes;
 
 /**
  * @brief Đọc file và lưu vào các biến
+ * Hưng
  * 
  */
 void init() {};
 
 /**
  * @brief Lưu weightage và nodes vào file input.txt
+ * Hưng
  * 
  */
 void saveToFile() {};
 
 /**
  * @brief Thêm node
+ * Hoàng
  * 
  */
 void addNode() {};
 
 /**
  * @brief Sửa node / trọng số
+ * Hùng
  * 
  */
 void editNode() {};
 
 /**
  * @brief Xóa node
+ * Hùng
  * 
  */
 void deleteNode() {};
 
 /**
  * @brief Demo thuật toán DFS
+ * Hoàng
  * 
  */
 void showDFS() {};
 
 /**
  * @brief Demo thuật toán BFS
+ * Hưng
  * 
  */
 void showBFS() {};
+
+/********************************************************************************************/
 
 /**
  * @brief Demo đường đi ngắn nhất giữa 2 điểm
