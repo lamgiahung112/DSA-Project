@@ -15,14 +15,44 @@ map<string, Node*> nodes;
  * Hưng
  * 
  */
-void init() {};
+void init() {
+    ifstream inputFile("input.txt");
+    string x;
+    string y;
+    int z;
+    while (inputFile >> x && inputFile >> y && inputFile >> z) {
+        if (nodes[x] == NULL) {
+            nodes[x] = new Node();
+            nodes[x]->name = x;
+        }
+
+        if (nodes[y] == NULL) {
+            nodes[y] = new Node();
+            nodes[y]->name = y;
+        }
+
+        nodes[x]->neighbors.push_back(nodes[y]);
+        weightage[x][y] = z;
+    }
+    inputFile.close();
+};
 
 /**
  * @brief Lưu weightage và nodes vào file input.txt
  * Hưng
  * 
  */
-void saveToFile() {};
+void saveToFile() {
+    ofstream file("input.txt");
+
+    for (auto src : weightage) {
+        for (auto dest : src.second) {
+            file << src.first << " " << dest.first << " " << dest.second << endl;
+        }
+    }
+
+    file.close();
+};
 
 /**
  * @brief Thêm node
@@ -120,6 +150,7 @@ void showTopologicalSort() {};
 void showGraphColoring() {};
 
 int main() {
-    
+    init();
+    saveToFile();
     return 0;
 }
