@@ -1,14 +1,7 @@
-#include <bits/stdc++.h>
+#include "Utils.cpp"
 
-using namespace std;
-
-struct Node {
-    string name;
-    vector<Node*> neighbors;
-};
-
-map<string, map<string, int>> weightage; // weightage["A"]["B"]
-map<string, Node*> nodes;
+std::map<std::string, std::map<std::string, int>> weightage; // weightage["A"]["B"]
+std::map<std::string, Utils::Node*> nodes;
 
 /**
  * @brief Đọc file và lưu vào các biến
@@ -16,18 +9,18 @@ map<string, Node*> nodes;
  * 
  */
 void init() {
-    ifstream inputFile("input.txt");
-    string x;
-    string y;
+    std::ifstream inputFile("input.txt");
+    std::string x;
+    std::string y;
     int z;
     while (inputFile >> x && inputFile >> y && inputFile >> z) {
         if (nodes[x] == NULL) {
-            nodes[x] = new Node();
+            nodes[x] = new Utils::Node();
             nodes[x]->name = x;
         }
 
         if (nodes[y] == NULL) {
-            nodes[y] = new Node();
+            nodes[y] = new Utils::Node();
             nodes[y]->name = y;
         }
 
@@ -43,11 +36,11 @@ void init() {
  * 
  */
 void saveToFile() {
-    ofstream file("input.txt");
+    std::ofstream file("input.txt");
 
     for (auto src : weightage) {
         for (auto dest : src.second) {
-            file << src.first << " " << dest.first << " " << dest.second << endl;
+            file << src.first << " " << dest.first << " " << dest.second << std::endl;
         }
     }
 
