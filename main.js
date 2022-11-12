@@ -11,7 +11,6 @@ const createWindow = () => {
 		width: 1920,
 		height: 1080,
 		webPreferences: {
-			preload: path.join(__dirname, "browser-script.js"),
 			nodeIntegration: true,
 			webviewTag: true,
 			devTools: true,
