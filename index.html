@@ -1,0 +1,26 @@
+<!--index.html-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="title"></div>
+      <div class="nav">
+        <button>go back</button>
+        <button>go next</button>
+        <button>reload</button>
+        <input value="url" />
+        <button>history</button>
+        <button>bookmark</button>
+      </div>
+    </div>
+    <webview id="webview" src="https://www.google.com" ></webview>
+    <script type="text/javascript" src="./browser-script.js">
+    </script>
+  </body>
+</html>

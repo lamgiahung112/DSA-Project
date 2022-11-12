@@ -2,3 +2,5 @@
 *.exe
 Makefile
 /.vscode
+/node_modules
+out/

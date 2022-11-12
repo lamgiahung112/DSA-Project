@@ -1,5 +1,0 @@
-W V 2
-W X 2
-X Y 4
-Z V 5
-Z Y 1
