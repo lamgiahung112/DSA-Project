@@ -27,6 +27,21 @@ BrowserHistory.prototype.next = function () {
 	return this.page.url
 }
 
+class Stack{
+    constructor() {
+        this.items = [];
+        this.count = 0;
+    }
+    push(element){
+        this.items[this.count++] = element;     
+    }
+    
+    top(){
+        if(this.count == 0) return undefined
+        return this.items[this.count - 1]
+    }
+}
+
 const byId = (id) => {
 	return document.getElementById(id)
 }
@@ -53,8 +68,9 @@ view.addEventListener("did-finish-load", () => {
 	}
 	isVisit = true
 	urlInput.value = view.getURL()
+	stackHistory.push(view.getURL())
 	var obj = []
-	obj.push(view.getURL())//add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
+	obj.push(stackHistory.items)//add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
 	const fs = require('fs')
 	fs.writeFile('testJSON.json', JSON.stringify(obj), err => {
 		if (err) {
@@ -83,20 +99,7 @@ homeBtn.addEventListener("click", () => {
 
 reloadBtn.addEventListener("click", () => {})
 
-class Stack{
-    constructor() {
-        this.items = [];
-        this.count = 0;
-    }
-    push(element){
-        this.items[this.count++] = element;     
-    }
-    
-    top(){
-        if(this.count == 0) return undefined
-        let deleteItem = this.items[this.count - 1];
-    }
-}
+
 
 
 
