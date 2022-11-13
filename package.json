@@ -30,6 +30,7 @@
     "electron": "^21.2.3"
   },
   "dependencies": {
+    "browserify-fs": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0"
   }
 }

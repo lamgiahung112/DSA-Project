@@ -4,3 +4,5 @@ Makefile
 /.vscode
 /node_modules
 out/
+test.js
+testJSON.json

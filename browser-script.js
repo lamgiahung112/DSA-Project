@@ -44,10 +44,19 @@ const historyBtn = byId("history-btn")
 const bookmarkBtn = byId("bookmark-btn")
 const homeBtn = byId("home-btn")
 const console = byId("console")
+const stackHistory = new Stack()
+
 
 view.addEventListener("did-finish-load", () => {
 	if (isVisit) browserHistory.visit(view.getURL())
 	urlInput.value = view.getURL()
+	var obj = {url : view.getURL()} //add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
+	const fs = require('fs')
+	fs.writeFile('testJSON.json', JSON.stringify(obj), err => {
+		if (err) {
+		  throw err
+		}
+	  })
 })
 
 backBtn.addEventListener("click", () => {
@@ -69,3 +78,21 @@ homeBtn.addEventListener("click", () => {
 })
 
 reloadBtn.addEventListener("click", () => {})
+
+class Stack{
+    constructor() {
+        this.items = [];
+        this.count = 0;
+    }
+    push(element){
+        this.items[this.count++] = element;     
+    }
+    
+    top(){
+        if(this.count == 0) return undefined
+        let deleteItem = this.items[this.count - 1];
+    }
+}
+
+
+
