@@ -48,7 +48,10 @@ const stackHistory = new Stack()
 
 
 view.addEventListener("did-finish-load", () => {
-	if (isVisit) browserHistory.visit(view.getURL())
+	if (isVisit) {
+		browserHistory.visit(view.getURL())
+	}
+	isVisit = true
 	urlInput.value = view.getURL()
 	var obj = {url : view.getURL()} //add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
 	const fs = require('fs')
