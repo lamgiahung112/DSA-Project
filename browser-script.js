@@ -46,7 +46,10 @@ const homeBtn = byId("home-btn")
 const console = byId("console")
 
 view.addEventListener("did-finish-load", () => {
-	if (isVisit) browserHistory.visit(view.getURL())
+	if (isVisit) {
+		browserHistory.visit(view.getURL())
+	}
+	isVisit = true
 	urlInput.value = view.getURL()
 })
 
