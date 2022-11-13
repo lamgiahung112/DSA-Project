@@ -53,7 +53,8 @@ view.addEventListener("did-finish-load", () => {
 	}
 	isVisit = true
 	urlInput.value = view.getURL()
-	var obj = {url : view.getURL()} //add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
+	var obj = []
+	obj.push(view.getURL())//add url to history.json, chỗ này thêm cái tab name nữa là hợp lí
 	const fs = require('fs')
 	fs.writeFile('testJSON.json', JSON.stringify(obj), err => {
 		if (err) {
