@@ -51,11 +51,14 @@ const byId = (id) => {
 	return document.getElementById(id)
 }
 
+const { randomUUID } = require("crypto")
 const fs = require("fs")
+const { get } = require("http")
 
 const homeURL = "https://www.google.com"
 const browserHistory = new BrowserHistory()
 const historyStack = new Stack()
+const bookmarkStack = new Stack()
 historyStack.items = require("./history.json")
 
 var isVisit = true
@@ -100,4 +103,17 @@ homeBtn.addEventListener("click", () => {
 	view.loadURL(homeURL)
 })
 
+bookmarkBtn.addEventListener("click", () => {
+	const bookmarkObj = {
+		title : "title",
+		id : randomUUID(),
+		url : view.getURL()
+	}
+	bookmarkStack.push(bookmarkObj)
+	fs.writeFile("./bookmark.json", JSON.stringify(bookmarkStack.items),(err) => {
+		bookmarkBtn.innerText = err.message
+	})
+})
+
 reloadBtn.addEventListener("click", () => {})
+
