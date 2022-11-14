@@ -12,8 +12,10 @@ const createWindow = () => {
 		height: 1080,
 		webPreferences: {
 			nodeIntegration: true,
+			contextIsolation: false,
 			webviewTag: true,
-			devTools: true,
+			nodeIntegrationInWorker: true,
+			nodeIntegrationInSubFrames: true,
 		},
 	})
 	mainWindow.loadFile("index.html")
