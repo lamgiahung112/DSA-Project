@@ -47,21 +47,6 @@ BrowserHistory.prototype.next = function () {
 	return this.page.url
 }
 
-class Stack{
-    constructor() {
-        this.items = [];
-        this.count = 0;
-    }
-    push(element){
-        this.items[this.count++] = element;     
-    }
-    
-    top(){
-        if(this.count == 0) return undefined
-        return this.items[this.count - 1]
-    }
-}
-
 const byId = (id) => {
 	return document.getElementById(id)
 }
