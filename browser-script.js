@@ -1,20 +1,26 @@
 class Stack {
-	constructor() {
-		this.items = []
+	#items = []
+
+	constructor(items) {
+		this.#items = items
 	}
 
 	push(element) {
-		this.items.push(element)
+		this.#items.push(element)
 	}
 
 	top() {
-		if (this.items.length == 0) return null
-		return this.items[this.items.length - 1]
+		if (this.#items.length == 0) return null
+		return this.#items[this.#items.length - 1]
 	}
 
 	pop() {
-		if (this.items.length === 0) return
-		this.items.pop()
+		if (this.#items.length === 0) return
+		this.#items.pop()
+	}
+
+	getItemList() {
+		return this.#items
 	}
 }
 
@@ -53,13 +59,12 @@ const byId = (id) => {
 
 const { randomUUID } = require("crypto")
 const fs = require("fs")
-const { get } = require("http")
 
 const homeURL = "https://www.google.com"
 const browserHistory = new BrowserHistory()
-const historyStack = new Stack()
-const bookmarkStack = new Stack()
-historyStack.items = require("./history.json")
+
+const historyStack = new Stack(require("./history.json"))
+const bookmarkStack = new Stack(require("./bookmark.json"))
 
 var isVisit = true
 
@@ -79,8 +84,8 @@ view.addEventListener("did-finish-load", () => {
 	isVisit = true
 	urlInput.value = view.getURL()
 
-	historyStack.push(view.getURL())
-	fs.writeFile("./history.json", JSON.stringify(historyStack.items), (err) => {
+	historyStack.push({ title: view.getTitle(), url: view.getURL(), id: randomUUID() })
+	fs.writeFile("./history.json", JSON.stringify(historyStack.getItemList()), (err) => {
 		homeBtn.innerText = err.message
 	})
 })
@@ -104,16 +109,22 @@ homeBtn.addEventListener("click", () => {
 })
 
 bookmarkBtn.addEventListener("click", () => {
-	const bookmarkObj = {
-		title : "title",
-		id : randomUUID(),
-		url : view.getURL()
-	}
-	bookmarkStack.push(bookmarkObj)
-	fs.writeFile("./bookmark.json", JSON.stringify(bookmarkStack.items),(err) => {
-		bookmarkBtn.innerText = err.message
+	bookmarkStack.push({
+		title: view.getTitle(),
+		id: randomUUID(),
+		url: view.getURL(),
 	})
+	fs.writeFile(
+		"./bookmark.json",
+		JSON.stringify(bookmarkStack.getItemList()),
+		(err) => {
+			bookmarkBtn.innerText = err.message
+		}
+	)
 })
 
 reloadBtn.addEventListener("click", () => {})
-
+historyBtn.addEventListener("click", () => {
+	urlInput.value = "browser://history"
+	view.loadURL("./history.html")
+})
