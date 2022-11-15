@@ -1,27 +1,65 @@
-<!--index.html-->
-
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="title"></div>
-      <div class="nav">
-        <button id="back-btn">go back</button>
-        <button id="next-btn">go next</button>
-        <button id="reload-btn">reload</button>
-        <input value="url" id="url-input" />
-        <button id="history-btn">history</button>
-        <button id="bookmark-btn">bookmark</button>
-        <button id="home-btn">home</button>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/font/fontawesome-free-6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="./assets/style.css">
+  <title>Electron</title>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="tab"></div>
+      
+    <div class="nav">
+      <!-- nav left -->
+      <div class="nav--left">
+        <button id="back-btn">
+          <i class="icon fa-solid fa-arrow-left"></i>
+        </button>
+        <button id="next-btn">
+          <i class="icon fa-solid fa-arrow-right"></i>
+        </button>
+        <button id="reload-btn">
+          <i class="icon fa-solid fa-rotate-right"></i>
+        </button>
+        <button id="home-btn">
+          <i class="icon fa-solid fa-house-user"></i>
+        </button>
       </div>
+      <!-- nav center -->
+      <div class="nav--search">
+        <input value="" id="url-input" />
+        <button id="gg-btn">
+          <i class="fa-brands fa-google"></i>
+        </button>
+        <button id="search-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <!-- nav right -->
+      <div class="nav--right">
+        <button id="download-btn">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button id="save-bookmark">
+          <i class="fa-solid fa-star"></i>
+        </button>
+        <button id="bookmark-btn">
+          <i class="fa-solid fa-bookmark"></i>
+        </button>
+        <button id="history-btn">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+      </div>
+
     </div>
-    <webview id="webview" src="https://www.google.com" webpreferences = 'contextIsolation=false' ></webview>
-    <script type="text/javascript" src="./browser-script.js">
-    </script>
-  </body>
+  </div>
+  <webview id="webview" src="https://www.google.com" styles="">Day la webview</webview>
+  <script type="text/javascript" src="./browser-script.js">
+  </script>
+</body>
 </html>
