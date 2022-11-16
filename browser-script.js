@@ -87,11 +87,8 @@ const historyStack = new Stack()
 const bookmarkStack = new Stack()
 
 ;(() => {
-	const histJSON = require("./history.json")
-	const boomarkJSON = require("./bookmark.json")
-
-	histJSON.forEach((item) => historyStack.push(item))
-	boomarkJSON.forEach((item) => bookmarkStack.push(item))
+	require("./history.json").forEach((item) => historyStack.push(item))
+	require("./bookmark.json").forEach((item) => bookmarkStack.push(item))
 })()
 
 var isVisit = true
