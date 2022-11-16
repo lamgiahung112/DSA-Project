@@ -32,6 +32,7 @@
   "dependencies": {
     "browserify-fs": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
+    "foo": "^0.0.7",
     "uuid": "^9.0.0"
   }
 }
