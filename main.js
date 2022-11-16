@@ -18,6 +18,7 @@ const createWindow = () => {
 			nodeIntegrationInSubFrames: true,
 		},
 	})
+	mainWindow.webContents.openDevTools()
 	mainWindow.loadFile("index.html")
 }
 
