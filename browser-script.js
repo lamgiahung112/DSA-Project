@@ -1,27 +1,47 @@
-class Stack {
-	#items = []
-
-	constructor(items) {
-		this.#items = items
+const Stack = function () {
+	this.head = {
+		data: null,
+		next: null,
 	}
+	this.top = this.head
+}
 
-	push(element) {
-		this.#items.push(element)
+Stack.prototype.push = function (item) {
+	if (!this.head.data && !this.head.next) {
+		this.head = { data: item, next: null }
+		this.top = this.head
+	} else {
+		this.top.next = { data: item, next: null }
+		this.top = this.top.next
 	}
+}
 
-	top() {
-		if (this.#items.length == 0) return null
-		return this.#items[this.#items.length - 1]
-	}
+Stack.prototype.pop = function () {
+	if (this.top === this.head) {
+		this.top = null
+	} else {
+		let tmp = this.head
 
-	pop() {
-		if (this.#items.length === 0) return
-		this.#items.pop()
+		while (tmp.next !== this.top) {
+			tmp = tmp.next
+		}
+		delete tmp.next
+		this.top = tmp
 	}
+}
 
-	getItemList() {
-		return this.#items
+Stack.prototype.getTop = function () {
+	return this.top
+}
+
+Stack.prototype.getList = function () {
+	let tmp = this.head
+	let arr = []
+	while (tmp) {
+		arr.push(tmp.data)
+		tmp = tmp.next
 	}
+	return arr
 }
 
 const BrowserHistory = function () {
@@ -63,8 +83,16 @@ const fs = require("fs")
 const homeURL = "https://www.google.com"
 const browserHistory = new BrowserHistory()
 
-const historyStack = new Stack(require("./history.json"))
-const bookmarkStack = new Stack(require("./bookmark.json"))
+const historyStack = new Stack()
+const bookmarkStack = new Stack()
+
+;(() => {
+	const histJSON = require("./history.json")
+	const boomarkJSON = require("./bookmark.json")
+
+	histJSON.forEach((item) => historyStack.push(item))
+	boomarkJSON.forEach((item) => bookmarkStack.push(item))
+})()
 
 var isVisit = true
 
@@ -84,8 +112,8 @@ view.addEventListener("did-finish-load", () => {
 	isVisit = true
 	urlInput.value = view.getURL()
 
-	historyStack.push({ title: view.getTitle(), url: view.getURL(), id: randomUUID() })
-	fs.writeFile("./history.json", JSON.stringify(historyStack.getItemList()), (err) => {
+	historyStack.push({ url: view.getURL(), title: view.getTitle(), id: randomUUID() })
+	fs.writeFile("./history.json", JSON.stringify(historyStack.getList()), (err) => {
 		homeBtn.innerText = err.message
 	})
 })
@@ -114,13 +142,9 @@ bookmarkBtn.addEventListener("click", () => {
 		id: randomUUID(),
 		url: view.getURL(),
 	})
-	fs.writeFile(
-		"./bookmark.json",
-		JSON.stringify(bookmarkStack.getItemList()),
-		(err) => {
-			bookmarkBtn.innerText = err.message
-		}
-	)
+	fs.writeFile("./bookmark.json", JSON.stringify(bookmarkStack.getList()), (err) => {
+		bookmarkBtn.innerText = err.message
+	})
 })
 
 reloadBtn.addEventListener("click", () => {})
