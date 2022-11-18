@@ -6,3 +6,5 @@ Makefile
 out/
 test.js
 testJSON.json
+history.json
+bookmark.json
