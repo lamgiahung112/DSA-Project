@@ -109,9 +109,14 @@ view.addEventListener("did-finish-load", () => {
 	isVisit = true
 	urlInput.value = view.getURL()
 
-	historyStack.push({ url: view.getURL(), title: view.getTitle(), id: randomUUID() })
+	historyStack.push({
+		url: view.getURL(),
+		title: view.getTitle(),
+		id: randomUUID(),
+		date: new Date().toLocaleString(),
+	})
 	fs.writeFile("./history.json", JSON.stringify(historyStack.getList()), (err) => {
-		homeBtn.innerText = err.message
+		if (err) console.log(err)
 	})
 })
 
