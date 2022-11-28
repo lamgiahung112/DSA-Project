@@ -3,17 +3,56 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./assets/font/fontawesome-free-6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="./assets/style-index.css" />
+  <link rel="stylesheet" href="./assets/main.css" />
+  <link rel="stylesheet" href="./assets/chrome-tabs.css" />
   <title>Electron</title>
 </head>
 
 <body>
   <div class="navbar">
-    <div class="tab"></div>
+    <div class="chrome-tabs" style="--tab-content-margin: 9px">
+
+      <div class="chrome-tabs-content">
+        
+        <div class="chrome-tab" active>
+          <div class="chrome-tab-dividers"></div>
+          <div class="chrome-tab-background">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36"><path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z"/></symbol><symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36"><use xlink:href="#chrome-tab-geometry-left"/></symbol><clipPath id="crop"><rect class="mask" width="100%" height="100%" x="0"/></clipPath></defs><svg width="52%" height="100%"><use xlink:href="#chrome-tab-geometry-left" width="214" height="36" class="chrome-tab-geometry"/></svg><g transform="scale(-1, 1)"><svg width="52%" height="100%" x="-100%" y="0"><use xlink:href="#chrome-tab-geometry-right" width="214" height="36" class="chrome-tab-geometry"/></svg></g></svg>
+          </div>
+          <div class="chrome-tab-content">
+            <div class="chrome-tab-favicon" style="background-image: url('./assets/images/google-favicon.ico')"></div>
+            <div class="chrome-tab-title">Google</div>
+            <div class="chrome-tab-drag-handle"></div>
+            <div class="chrome-tab-close"></div>
+          </div>
+        </div>
+        
+        <button class="btn-new-tab" data-add-tab>
+          <i class="icon-new-tab fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <div class="chrome-tabs-bottom-bar"></div>
       
+      <!-- Styles to prevent flash after JS initialization -->
+      <style>
+        .chrome-tabs .chrome-tab {
+          width: 258px
+        }
+
+        .chrome-tabs .chrome-tab:nth-child(1) {
+          transform: translate3d(0px, 0, 0)
+        }
+
+        .chrome-tabs .chrome-tab:nth-child(2) {
+          transform: translate3d(239px, 0, 0)
+        }
+      </style>
+    </div>
+    <div class="chrome-tabs-optional-shadow-below-bottom-bar"></div>
+
     <div class="nav">
       <!-- nav left -->
       <div class="nav--left">
@@ -55,14 +94,24 @@
           <i class="fa-solid fa-clock-rotate-left"></i>
         </button>
       </div>
-
     </div>
-    <webview 
-      id="webview" 
-      src="https://www.google.com" 
-      webpreferences = 'contextIsolation=false'>
-    </webview>
-    <script type="text/javascript" src="./browser-script.js">
-    </script>
-  </body>
+  </div>
+
+  <script src="https://unpkg.com/draggabilly@2.2.0/dist/draggabilly.pkgd.min.js"></script>
+  <script src="./chrome-tabs.js"></script>
+  <script>
+    var el = document.querySelector('.chrome-tabs')
+    var chromeTabs = new ChromeTabs()
+
+    chromeTabs.init(el)
+    
+    document.querySelector('button[data-add-tab]').addEventListener('click', _ => {
+      chromeTabs.addTab({
+        title: 'New Tab',
+        favicon: false
+      })
+    })
+  </script>
+  <script type="text/js" src="./browser-script.js"></script>
+</body>
 </html>
