@@ -18,11 +18,13 @@ body {
 
 .navbar {
     width: 100%;
+    background: #dee1e6;
 }
 
 .nav {
     display: flex;
     height: 3.5rem;
+    margin-top: 5px;
     justify-content: space-between;
 }
 
