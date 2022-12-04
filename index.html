@@ -108,11 +108,18 @@
         </button>
       </div>
     </div>
+    <webview 
+      id="webview" 
+      src="https://www.google.com" 
+      webpreferences = 'contextIsolation=false' 
+    >
+    w
+    </webview>
   </div>
 
-  <script src="https://unpkg.com/draggabilly@2.2.0/dist/draggabilly.pkgd.min.js"></script>
-  <script src="./chrome-tabs.js"></script>
-  <script>
+  <script src="https://unpkg.com/draggabilly@2.2.0/dist/draggabilly.pkgd.min.js" type="text/js"></script>
+  <script src="./chrome-tabs.js" type="text/js"></script>
+  <script type="text/javascript" >
     var el = document.querySelector('.chrome-tabs')
     var chromeTabs = new ChromeTabs()
 

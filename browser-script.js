@@ -44,6 +44,21 @@ Stack.prototype.getList = function () {
 	return arr
 }
 
+Stack.prototype.filter = function (callback) {
+	const arr = []
+
+	while (this.top && !callback(this.getTop())) {
+		arr.push(this.getTop())
+		this.pop()
+	}
+
+	this.pop()
+
+	while (arr.length) {
+		this.push(arr.pop())
+	}
+}
+
 const BrowserHistory = function () {
 	this.page = {
 		url: homeURL,
@@ -118,6 +133,7 @@ view.addEventListener("did-finish-load", () => {
 	fs.writeFile("./history.json", JSON.stringify(historyStack.getList()), (err) => {
 		if (err) console.log(err)
 	})
+	console.log(historyStack.getList())
 })
 
 backBtn.addEventListener("click", () => {
