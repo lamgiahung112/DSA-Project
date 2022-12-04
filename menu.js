@@ -5,8 +5,8 @@ module.exports = (app) => [
 		label: "History",
 		click: async () => {
 			const smallWin = new BrowserWindow({
-				width: 300,
-				height: 400,
+				width: 1280,
+				height: 720,
 				autoHideMenuBar: true,
 				show: false,
 				webPreferences: {
@@ -18,6 +18,27 @@ module.exports = (app) => [
 				},
 			})
 			smallWin.loadFile("history.html")
+			smallWin.webContents.openDevTools()
+			smallWin.on("ready-to-show", () => smallWin.show())
+		},
+	},
+	{
+		label: "Bookmark",
+		click: async () => {
+			const smallWin = new BrowserWindow({
+				width: 1280,
+				height: 720,
+				autoHideMenuBar: true,
+				show: false,
+				webPreferences: {
+					nodeIntegration: true,
+					contextIsolation: false,
+					webviewTag: true,
+					nodeIntegrationInWorker: true,
+					nodeIntegrationInSubFrames: true,
+				},
+			})
+			smallWin.loadFile("bookmark.html")
 			smallWin.webContents.openDevTools()
 			smallWin.on("ready-to-show", () => smallWin.show())
 		},
