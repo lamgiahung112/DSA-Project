@@ -2,6 +2,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     /* box-sizing: border-box; */
 }
 
@@ -19,8 +20,126 @@ body {
 .navbar {
     width: 100%;
     background: #dee1e6;
+    display: flex;
+    flex-direction: column;
+}
+/* tab css */
+.chrome-tabs {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+    height: 46px;
+    padding: 8px 3px 4px 3px;
+    background: #dee1e6;
+    border-radius: 5px 5px 0 0;
+  }
+
+.chrome-tabs .chrome-tab {
+    height: 36px;
+    width: 240px;
 }
 
+.chrome-tabs .chrome-tab .chrome-tab-background {
+    width: 100%;
+    height: 100%;
+}
+
+.chrome-tabs .chrome-tab .chrome-tab-background > svg {
+    width: 100%;
+    height: 100%;
+}
+
+.chrome-tabs .chrome-tab .chrome-tab-background > svg .chrome-tab-geometry {
+    fill: #f4f5f6;
+}
+
+.chrome-tabs .chrome-tab[active] {
+    z-index: 5;
+}
+
+.chrome-tabs .chrome-tab[active] .chrome-tab-background > svg .chrome-tab-geometry {
+    fill: #fff;
+}
+  
+  
+.chrome-tabs .chrome-tab .chrome-tab-content {
+    position: relative;
+    display: flex;
+    width: 85%;
+    top: -35px;
+    left: 8px;
+    padding: 9px 8px;
+}
+
+.chrome-tab + .chrome-tab {
+    margin-left: -18px;
+}
+
+.chrome-tab-favicon {
+    flex-shrink: 0;
+    flex-grow: 0;
+    height: 16px;
+    width: 16px;
+    background-size: 16px;
+    margin-left: 4px;
+}
+  
+.chrome-tab-title {
+    flex: 1;
+    vertical-align: top;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 4px;
+    color: #5f6368;
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 24px), transparent);
+    mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 24px), transparent);
+}
+
+.chrome-tab-close {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><path stroke='rgba(0, 0, 0, .65)' stroke-linecap='square' stroke-width='1.5' d='M0 0 L8 8 M8 0 L0 8'></path></svg>");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 8px 8px;
+}
+
+.chrome-tabs-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 10;
+}
+
+.chrome-tabs-optional-shadow-below-bottom-bar {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1' viewBox='0 0 1 1'><rect x='0' y='0' width='1' height='1' fill='rgba(0, 0, 0, .17)'></rect></svg>");
+    background-size: 1px 1px;
+    background-repeat: repeat-x;
+    background-position: 0% 0%;
+}
+
+.btn-new-tab {
+  position: absolute;
+  right: 25px;
+  width: 48px;
+  height: 28px;
+}
+
+.icon-new-tab {
+  font-size: 16px;
+}
+/* nav css */
 .nav {
     display: flex;
     height: 3.5rem;
@@ -71,6 +190,57 @@ button:hover {
 button:active {
     box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
     outline: none;
+}
+
+#bookmark-btn {
+    position: relative;
+}
+
+#list-bookmark {
+    display: none;
+}
+
+#bookmark-btn:hover + #list-bookmark, #list-bookmark:hover{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: absolute;
+    background-color: #ccc;
+    top: 10px;
+    right: 140px;
+    width: 400px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+/* #list-bookmark {
+    display: flex;
+    flex-direction: column;
+} */
+
+.item-bookmark {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    width: 90%;
+    height: 40px;
+    border-bottom: 2px solid #dee1e6;
+    margin: 5px;
+}
+
+.favicon-bookmark {
+    flex-grow: 1;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    background-position-y: 5px;
+}
+
+.title-bookmark {
+    flex-grow: 10;
+    font-size: 16px;
+    margin-left: 30px;
+    font-weight: 400;
 }
 
 .nav--left, .nav--right {
