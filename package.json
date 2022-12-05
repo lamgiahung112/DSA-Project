@@ -1,7 +1,7 @@
 {
   "name": "dsa",
   "version": "1.0.0",
-  "description": "",
+  "description": "a",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/lamgiahung112/DSA-Project.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hung",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lamgiahung112/DSA-Project/issues"
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "browserify-fs": "^1.0.0",
+    "electron-json-storage": "^4.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "foo": "^0.0.7",
     "uuid": "^9.0.0"

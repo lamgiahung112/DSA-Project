@@ -93,18 +93,24 @@ const byId = (id) => {
 }
 
 const { randomUUID } = require("crypto")
-const fs = require("fs")
+const storage = require("electron-json-storage")
+const os = require("os")
+
+storage.setDataPath(os.tmpdir())
 
 const homeURL = "https://www.google.com"
 const browserHistory = new BrowserHistory()
 
 const historyStack = new Stack()
-const bookmarkStack = new Stack()
+let bookmarkMap = {}
 
 const tabMap = new Map()
 ;(() => {
-	require("./history.json").forEach((item) => historyStack.push(item))
-	// require("./bookmark.json").forEach((item) => bookmarkStack.push(item))
+	const tmp = storage.getSync("history")
+	if (tmp.length) {
+		tmp.forEach((item) => historyStack.push(item))
+	}
+	bookmarkMap = storage.getSync("bookmark")
 })()
 
 var isVisit = true
@@ -118,13 +124,16 @@ const backBtn = byId("back-btn")
 const nextBtn = byId("next-btn")
 const reloadBtn = byId("reload-btn")
 const urlInput = byId("url-input")
-const historyBtn = byId("history-btn")
-const bookmarkBtn = byId("bookmark-btn")
 const homeBtn = byId("home-btn")
+const bookmarkBtn = byId("save-bookmark")
+const searchBtn = byId("search-btn")
+
+const modal = byId("modal")
 
 /** RENDER WEBVIEW */
 
 /** WEBVIEW EVENT HANDLERS */
+let isClickingClose = false
 
 const tabEventHandler = (id) => {
 	const view = tabMap.get(id)
@@ -141,8 +150,9 @@ const tabEventHandler = (id) => {
 		id: randomUUID(),
 		date: new Date().toLocaleString(),
 	})
-	fs.writeFile("./history.json", JSON.stringify(historyStack.getList()), (err) => {
-		if (err) console.log(err)
+
+	storage.set("history", historyStack.getList(), (err) => {
+		console.log(err)
 	})
 	console.log(historyStack.getList())
 }
@@ -190,6 +200,7 @@ addTabBtn.addEventListener("click", () => {
 	tabClose.id = `tab-close-${id}`
 
 	tabClose.addEventListener("click", () => {
+		isClickingClose = true
 		tabRenderer.removeChild(tabToAdd)
 		webviewContainer.removeChild(newWebview)
 		tabMap.delete(id)
@@ -205,7 +216,7 @@ addTabBtn.addEventListener("click", () => {
 	})
 
 	tabToAdd.addEventListener("click", () => {
-		if (currentTabid == id) return
+		if (currentTabid == id || isClickingClose) return
 		currentTabid = id
 		tabMap.forEach((webview) => {
 			webview.style.width = "0"
@@ -232,35 +243,95 @@ backBtn.addEventListener("click", () => {
 	const backURL = browserHistory.back()
 	if (!backURL) return
 	isVisit = false
-	view.loadURL(backURL)
+	tabMap(currentTabid).loadURL(backURL)
 })
 
 nextBtn.addEventListener("click", () => {
 	const nextURL = browserHistory.next()
 	if (!nextURL) return
 	isVisit = false
-	view.loadURL(nextURL)
+	tabMap(currentTabid).loadURL(nextURL)
 })
 
 homeBtn.addEventListener("click", () => {
-	view.loadURL(homeURL)
-})
-
-bookmarkBtn.addEventListener("click", () => {
-	bookmarkStack.push({
-		title: view.getTitle(),
-		id: randomUUID(),
-		url: view.getURL(),
-	})
-	fs.writeFile("./bookmark.json", JSON.stringify(bookmarkStack.getList()), (err) => {
-		bookmarkBtn.innerText = err.message
-	})
+	tabMap(currentTabid).loadURL(homeURL)
 })
 
 reloadBtn.addEventListener("click", () => {})
-historyBtn.addEventListener("click", () => {
-	urlInput.value = "browser://history"
-	view.loadURL("./history.html")
+
+searchBtn.onclick = () => {
+	if (urlInput.value.startsWith("https://")) {
+		tabMap.get(currentTabid).loadURL(urlInput.value)
+	}
+}
+
+bookmarkBtn.addEventListener("click", () => {
+	modal.style.visibility = "unset"
+
+	const hide = () => {
+		modal.style.visibility = "hidden"
+	}
+
+	byId("modal-close").onclick = hide
+
+	byId("folder-input").innerHTML = ""
+	Object.keys(bookmarkMap).forEach((key) => {
+		const option = document.createElement("option")
+		option.label = key
+		option.value = key
+		byId("folder-input").appendChild(option)
+	})
+
+	const form = byId("modal-form")
+	const titleInput = byId("title-input")
+	const newFolder = byId("add-folder")
+	const folderInput = byId("folder-input")
+
+	form.onsubmit = (e) => {
+		e.preventDefault()
+
+		if (!titleInput.value) {
+			byId("chui").innerText = "Title cannot be null"
+			return
+		}
+
+		if (newFolder.value !== "") {
+			if (newFolder.value in bookmarkMap)
+				bookmarkMap[newFolder.value].push({
+					id: randomUUID(),
+					date: `${new Date().getDate()}/${
+						new Date().getMonth() + 1
+					}/${new Date().getFullYear()}`,
+					title: titleInput.value,
+					url: tabMap.get(currentTabid).getURL(),
+				})
+			else
+				bookmarkMap[newFolder.value] = [
+					{
+						id: randomUUID(),
+						date: `${new Date().getDate()}/${
+							new Date().getMonth() + 1
+						}/${new Date().getFullYear()}`,
+						title: titleInput.value,
+						url: tabMap.get(currentTabid).getURL(),
+					},
+				]
+		} else {
+			bookmarkMap[folderInput.value].push({
+				id: randomUUID(),
+				date: `${new Date().getDate()}/${
+					new Date().getMonth() + 1
+				}/${new Date().getFullYear()}`,
+				title: titleInput.value,
+				url: tabMap.get(currentTabid).getURL(),
+			})
+		}
+
+		modal.style.visibility = "hidden"
+		storage.set("bookmark", bookmarkMap, (err) => {
+			console.log(err)
+		})
+	}
 })
 
 const chromeTabBackground = `<div class="chrome-tab-background">

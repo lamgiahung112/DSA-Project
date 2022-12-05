@@ -1,5 +1,10 @@
-const fs = require("fs")
-let data = require("./bookmark.json")
+let data = {}
+
+const storage = require("electron-json-storage")
+const os = require("os")
+
+storage.setDataPath(os.tmpdir())
+data = storage.getSync("bookmark")
 
 const renderer = document.getElementById("renderer")
 
@@ -31,9 +36,17 @@ const render = () => {
 				const itemInfo = document.createElement("div")
 				itemInfo.className = "item-info"
 
-				const titleLink = document.createElement("a")
+				const titleLink = document.createElement("div")
 				titleLink.className = "title"
 				titleLink.innerText = bookmark.title
+
+				titleLink.onclick = async () => {
+					// Copy the text inside the text field
+					await navigator.clipboard.writeText(bookmark.url)
+
+					// Alert the copied text
+					alert("Copied link: " + bookmark.url)
+				}
 
 				const domain = document.createElement("p")
 				domain.className = "domain"
@@ -45,8 +58,8 @@ const render = () => {
 				delBtn.addEventListener("click", () => {
 					data[key] = data[key].filter((x) => x.id !== bookmark.id)
 					listItem.innerHTML = ""
-					fs.writeFile("./bookmark.json", JSON.stringify(data), (err) => {
-						if (err) console.log(err)
+					storage.set("bookmark", data, (err) => {
+						console.log(err)
 					})
 					renderDetail()
 				})

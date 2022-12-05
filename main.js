@@ -8,8 +8,9 @@ Menu.setApplicationMenu(menu)
 
 const createWindow = () => {
 	const mainWindow = new BrowserWindow({
-		width: 1920,
-		height: 1080,
+		width: 1600,
+		height: 810,
+		resizable: false,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -18,7 +19,7 @@ const createWindow = () => {
 			nodeIntegrationInSubFrames: true,
 		},
 	})
-	mainWindow.webContents.openDevTools()
+	// mainWindow.webContents.openDevTools()
 	mainWindow.loadFile("index.html")
 }
 

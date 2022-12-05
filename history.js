@@ -58,12 +58,17 @@ Stack.prototype.filter = function (callback) {
 		this.push(item)
 	}
 }
+const storage = require("electron-json-storage")
+const os = require("os")
 
-const fs = require("fs")
+storage.setDataPath(os.tmpdir())
 const data = new Stack()
 
 ;(() => {
-	require("./history.json").forEach((item) => data.push(item))
+	const tmp = storage.getSync("history")
+	if (tmp.length) {
+		tmp.forEach((item) => data.push(item))
+	}
 })()
 
 const renderer = document.getElementById("renderer")
@@ -90,6 +95,14 @@ const render = () => {
 		titleLink.className = "title"
 		titleLink.innerText = title
 
+		titleLink.onclick = async () => {
+			// Copy the text inside the text field
+			await navigator.clipboard.writeText(bookmark.url)
+
+			// Alert the copied text
+			alert("Copied link: " + bookmark.url)
+		}
+
 		const domain = document.createElement("p")
 		domain.className = "domain"
 		domain.innerText = url
@@ -100,8 +113,8 @@ const render = () => {
 		delBtn.addEventListener("click", () => {
 			data.filter((x) => x.id !== id)
 			renderer.innerHTML = ""
-			fs.writeFile("./history.json", JSON.stringify(data.getList()), (err) => {
-				if (err) console.log(err)
+			storage.set("history", data.getList(), (err) => {
+				console.log(err)
 			})
 			render()
 		})

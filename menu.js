@@ -18,7 +18,6 @@ module.exports = (app) => [
 				},
 			})
 			smallWin.loadFile("history.html")
-			smallWin.webContents.openDevTools()
 			smallWin.on("ready-to-show", () => smallWin.show())
 		},
 	},
@@ -39,7 +38,7 @@ module.exports = (app) => [
 				},
 			})
 			smallWin.loadFile("bookmark.html")
-			smallWin.webContents.openDevTools()
+			// smallWin.webContents.openDevTools()
 			smallWin.on("ready-to-show", () => smallWin.show())
 		},
 	},
