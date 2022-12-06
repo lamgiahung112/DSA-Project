@@ -88,6 +88,32 @@ BrowserHistory.prototype.next = function () {
 	return this.page.url
 }
 
+class _Map {
+	#container = {}
+
+	_Map() {}
+
+	get(key) {
+		return this.#container[key]
+	}
+
+	set(key, val) {
+		this.#container[key] = val
+	}
+
+	delete(key) {
+		delete this.#container[key]
+	}
+
+	keys() {
+		return Object.keys(this.#container)
+	}
+
+	forEach(callback) {
+		Object.keys(this.#container).forEach((key) => callback(this.#container[key], key))
+	}
+}
+
 const byId = (id) => {
 	return document.getElementById(id)
 }
@@ -104,7 +130,8 @@ const browserHistory = new BrowserHistory()
 const historyStack = new Stack()
 let bookmarkMap = {}
 
-const tabMap = new Map()
+const tabMap = new _Map()
+
 ;(() => {
 	const tmp = storage.getSync("history")
 	if (tmp.length) {
@@ -216,7 +243,10 @@ addTabBtn.addEventListener("click", () => {
 	})
 
 	tabToAdd.addEventListener("click", () => {
-		if (currentTabid == id || isClickingClose) return
+		if (currentTabid == id || isClickingClose) {
+			isClickingClose = false
+			return
+		}
 		currentTabid = id
 		tabMap.forEach((webview) => {
 			webview.style.width = "0"
@@ -243,14 +273,14 @@ backBtn.addEventListener("click", () => {
 	const backURL = browserHistory.back()
 	if (!backURL) return
 	isVisit = false
-	tabMap(currentTabid).loadURL(backURL)
+	tabMap.get(currentTabid).loadURL(backURL)
 })
 
 nextBtn.addEventListener("click", () => {
 	const nextURL = browserHistory.next()
 	if (!nextURL) return
 	isVisit = false
-	tabMap(currentTabid).loadURL(nextURL)
+	tabMap.get(currentTabid).loadURL(nextURL)
 })
 
 homeBtn.addEventListener("click", () => {
