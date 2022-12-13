@@ -4,11 +4,12 @@ const storage = require("electron-json-storage")
 const os = require("os")
 
 storage.setDataPath(os.tmpdir())
-data = storage.getSync("bookmark")
 
 const renderer = document.getElementById("renderer")
 
 const render = () => {
+	data = storage.getSync("bookmark")
+	console.log(data)
 	for (let key of Object.keys(data)) {
 		const mainContainer = document.createElement("div")
 		mainContainer.className = "main-container"

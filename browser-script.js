@@ -127,18 +127,7 @@ storage.setDataPath(os.tmpdir())
 const homeURL = "https://www.google.com"
 const browserHistory = new BrowserHistory()
 
-const historyStack = new Stack()
-let bookmarkMap = {}
-
 const tabMap = new _Map()
-
-;(() => {
-	const tmp = storage.getSync("history")
-	if (tmp.length) {
-		tmp.forEach((item) => historyStack.push(item))
-	}
-	bookmarkMap = storage.getSync("bookmark")
-})()
 
 var isVisit = true
 
@@ -171,16 +160,18 @@ const tabEventHandler = (id) => {
 	urlInput.value = view.getURL()
 	byId(`tab-title-${currentTabid}`).textContent = view.getTitle()
 
+	const historyStack = new Stack()
+	const tmp = storage.getSync("history") || []
+	if (tmp.length) {
+		tmp.forEach((item) => historyStack.push(item))
+	}
 	historyStack.push({
 		url: view.getURL(),
 		title: view.getTitle(),
 		id: randomUUID(),
 		date: new Date().toLocaleString(),
 	})
-
-	storage.set("history", historyStack.getList(), (err) => {
-		console.log(err)
-	})
+	storage.set("history", historyStack.getList(), (err) => {})
 	console.log(historyStack.getList())
 }
 
@@ -301,7 +292,7 @@ bookmarkBtn.addEventListener("click", () => {
 	const hide = () => {
 		modal.style.visibility = "hidden"
 	}
-
+	const bookmarkMap = storage.getSync("bookmark") || {}
 	byId("modal-close").onclick = hide
 
 	byId("folder-input").innerHTML = ""

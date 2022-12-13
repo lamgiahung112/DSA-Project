@@ -17,6 +17,7 @@ module.exports = (app) => [
 					nodeIntegrationInSubFrames: true,
 				},
 			})
+			smallWin.webContents.openDevTools()
 			smallWin.loadFile("history.html")
 			smallWin.on("ready-to-show", () => smallWin.show())
 		},
@@ -38,7 +39,7 @@ module.exports = (app) => [
 				},
 			})
 			smallWin.loadFile("bookmark.html")
-			// smallWin.webContents.openDevTools()
+			smallWin.webContents.openDevTools()
 			smallWin.on("ready-to-show", () => smallWin.show())
 		},
 	},

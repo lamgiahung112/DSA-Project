@@ -113,8 +113,8 @@ const render = () => {
 		delBtn.addEventListener("click", () => {
 			data.filter((x) => x.id !== id)
 			renderer.innerHTML = ""
-			storage.set("history", data.getList(), (err) => {
-				console.log(err)
+			storage.set("history", data.getList(), (err, x) => {
+				console.log(x)
 			})
 			render()
 		})
